@@ -3,431 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrendTrade | Retailer Matchmaking</title>
+    <title>TrendTrade | Retailer App</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --bg-deep: #0B001A; 
-            --card-bg: #1A0B2E;
-            --magenta: #FF007A; 
-            --cyan: #00F0FF; 
-            --lime: #39FF14;
-            --text-main: #FFFFFF;
-            --text-muted: #A098B0;
+            --primary: #2563EB; 
+            --primary-glow: rgba(37, 99, 235, 0.4);
+            --accent: #10B981; 
+            --bg: #F8FAFC; 
+            --card-bg: #FFFFFF; 
+            --text: #0F172A; 
+            --text-muted: #64748B;
         }
         
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        body { background: var(--bg-deep); color: var(--text-main); padding-bottom: 100px; overflow-x: hidden; }
-
-        /* Animated Glowing Background Mesh */
-        body::before {
-            content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 0, 122, 0.15), transparent 40%),
-                        radial-gradient(circle at 80% 20%, rgba(0, 240, 255, 0.15), transparent 40%);
-            animation: slowSpin 20s linear infinite; z-index: -1; pointer-events: none;
-        }
-        @keyframes slowSpin { 100% { transform: rotate(360deg); } }
+        body { background: var(--bg); color: var(--text); padding-bottom: 90px; overflow-x: hidden; }
 
         /* Top App Bar */
         .app-header {
-            background: rgba(11, 0, 26, 0.85); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #E2E8F0;
         }
-        .back-btn { color: var(--cyan); text-decoration: none; font-weight: 800; display: flex; align-items: center; gap: 8px; font-size: 16px; text-transform: uppercase; letter-spacing: 1px;}
-        .back-btn i { font-size: 20px; }
+        .back-btn { color: var(--primary); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; font-size: 16px;}
         
-        .container { padding: 30px 5%; max-width: 1400px; margin: 0 auto; }
+        .container { padding: 30px 5%; max-width: 1200px; margin: 0 auto; }
         
-        /* Neon Search Engine */
-        .search-container { position: sticky; top: 80px; z-index: 90; background: var(--bg-deep); padding: 10px 0 30px; }
+        /* Interactive Search Engine */
+        .search-container { position: sticky; top: 80px; z-index: 90; background: var(--bg); padding: 10px 0 20px; }
         .search-bar {
-            background: rgba(26, 11, 46, 0.8); padding: 18px 25px; border-radius: 100px; display: flex; align-items: center; gap: 15px;
-            border: 2px solid rgba(0, 240, 255, 0.3); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+            background: var(--card-bg); padding: 16px 24px; border-radius: 100px; display: flex; align-items: center; gap: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 2px solid transparent; transition: 0.3s;
         }
-        .search-bar:focus-within { border-color: var(--cyan); box-shadow: 0 0 30px rgba(0, 240, 255, 0.4); transform: scale(1.02); }
-        .search-bar input { border: none; outline: none; width: 100%; font-size: 18px; font-weight: 600; color: var(--text-main); background: transparent; }
-        .search-bar input::placeholder { color: var(--text-muted); font-weight: 400; }
-        .search-bar i { color: var(--cyan); font-size: 24px; }
+        .search-bar:focus-within { border-color: var(--primary); box-shadow: 0 10px 30px var(--primary-glow); transform: translateY(-2px); }
+        .search-bar input { border: none; outline: none; width: 100%; font-size: 16px; font-weight: 600; color: var(--text); background: transparent; }
+        .search-bar input::placeholder { color: #94A3B8; font-weight: 500; }
+        .search-bar i { color: var(--primary); font-size: 20px; }
 
-        .header-section { margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
-        .header-section h2 { font-size: 36px; font-weight: 900; background: linear-gradient(90deg, var(--cyan), var(--magenta)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .result-count { color: var(--bg-deep); background: var(--cyan); font-weight: 900; padding: 6px 16px; border-radius: 20px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); }
+        .header-section { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .header-section h2 { font-size: 28px; font-weight: 800; }
+        .result-count { color: var(--primary); font-weight: 700; background: rgba(37, 99, 235, 0.1); padding: 5px 12px; border-radius: 20px; font-size: 14px; }
 
-        /* Massive Grid Layout */
-        .feed-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+        /* Dynamic Grid Layout for 100+ Profiles */
+        .feed-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 25px; 
+        }
 
-        /* Epic Glowing Creator Cards */
+        /* Upgraded Creator Cards & Hover Physics */
         .creator-card {
-            background: var(--card-bg); border-radius: 24px; padding: 25px; position: relative;
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 10px 30px rgba(0,0,0,0.5);
+            background: var(--card-bg); border-radius: 24px; padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #E2E8F0; 
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex; flex-direction: column; overflow: hidden;
-            opacity: 0; transform: translateY(40px); animation: staggerUp 0.6s ease forwards;
+            display: flex; flex-direction: column; position: relative; overflow: hidden;
+            /* Animation triggers */
+            opacity: 0; transform: translateY(30px); animation: fadeSlideUp 0.6s ease forwards;
         }
 
-        /* Continuous Border Glow Animation */
-        .creator-card::before {
-            content: ''; position: absolute; inset: -2px; z-index: -1;
-            background: linear-gradient(45deg, var(--magenta), var(--cyan), var(--lime), var(--magenta));
-            background-size: 400%; border-radius: 26px; opacity: 0; transition: 0.4s;
+        @keyframes fadeSlideUp {
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .creator-card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8); }
-        .creator-card:hover::before { opacity: 1; animation: glowingBorder 3s linear infinite; }
-
-        @keyframes staggerUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes glowingBorder { 0% { background-position: 0% 0%; } 100% { background-position: 400% 0%; } }
+        .creator-card:hover { 
+            transform: translateY(-8px) scale(1.02); 
+            border-color: var(--primary); 
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.12); 
+        }
         
-        .profile-header { display: flex; align-items: center; gap: 18px; margin-bottom: 25px; }
+        .profile-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
         .avatar {
-            width: 80px; height: 80px; border-radius: 22px; background-size: cover; background-position: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4); position: relative; flex-shrink: 0;
-            border: 2px solid rgba(255,255,255,0.1);
+            width: 70px; height: 70px; border-radius: 20px; background-size: cover; background-position: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1); position: relative; flex-shrink: 0;
         }
-        .verified-tick { position: absolute; bottom: -8px; right: -8px; background: var(--bg-deep); border-radius: 50%; padding: 3px; }
-        .verified-tick i { color: var(--lime); font-size: 20px; filter: drop-shadow(0 0 5px var(--lime)); }
+        .verified-tick { position: absolute; bottom: -5px; right: -5px; background: var(--card-bg); border-radius: 50%; padding: 2px; }
+        .verified-tick i { color: var(--accent); font-size: 18px; }
 
-        .profile-info h3 { font-size: 22px; font-weight: 800; margin-bottom: 6px; letter-spacing: 0.5px; }
+        .profile-info h3 { font-size: 20px; font-weight: 800; margin-bottom: 4px; color: var(--text); }
         .niche-tag { 
-            display: inline-block; background: rgba(255, 0, 122, 0.2); color: var(--magenta); 
-            padding: 6px 12px; border-radius: 12px; font-size: 12px; font-weight: 800; text-transform: uppercase; border: 1px solid rgba(255, 0, 122, 0.4);
+            display: inline-block; background: var(--bg); color: var(--text-muted); 
+            padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; text-transform: uppercase; 
         }
 
-        .data-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 25px; background: rgba(0,0,0,0.3); padding: 18px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
+        .data-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px; background: var(--bg); padding: 15px; border-radius: 16px; border: 1px solid #F1F5F9; }
         .data-item { text-align: center; }
-        .data-val { font-size: 20px; font-weight: 900; }
-        .data-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-top: 5px; letter-spacing: 1px; }
+        .data-val { font-size: 18px; font-weight: 800; color: var(--text); }
+        .data-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-top: 4px; }
+        .highlight-val { color: var(--primary); }
 
         .hire-btn {
-            background: linear-gradient(90deg, var(--magenta), #FF3333); color: white; padding: 16px; border-radius: 14px;
-            font-weight: 900; text-align: center; display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 16px;
-            text-decoration: none; transition: 0.3s; border: none; cursor: pointer; width: 100%; text-transform: uppercase; letter-spacing: 1px;
+            background: var(--primary); color: white; padding: 14px; border-radius: 14px;
+            font-weight: 800; text-align: center; display: flex; justify-content: center; align-items: center; gap: 10px;
+            text-decoration: none; transition: 0.3s; border: none; cursor: pointer; width: 100%;
         }
-        .hire-btn:hover { box-shadow: 0 10px 25px rgba(255, 0, 122, 0.5); filter: brightness(1.2); }
+        .hire-btn:hover { background: #1D4ED8; box-shadow: 0 10px 20px var(--primary-glow); transform: translateY(-2px); }
 
         /* Mobile Bottom Nav */
         .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(11, 0, 26, 0.95);
-            backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-around; padding: 15px 0 25px; z-index: 1000;
+            position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid #E2E8F0; display: flex; justify-content: space-around; padding: 15px 0 25px; z-index: 1000;
         }
-        .nav-item { color: var(--text-muted); text-align: center; font-size: 24px; transition: 0.3s; cursor: pointer; position: relative; }
-        .nav-item.active { color: var(--cyan); transform: translateY(-4px); filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.5)); }
-        .nav-item span { display: block; font-size: 10px; margin-top: 6px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;}
+        .nav-item { color: #94A3B8; text-align: center; font-size: 24px; transition: 0.3s; cursor: pointer; position: relative; }
+        .nav-item.active { color: var(--primary); transform: translateY(-4px); }
+        .nav-item span { display: block; font-size: 10px; margin-top: 6px; font-weight: 700; }
+        .nav-indicator { position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; border-radius: 50%; background: var(--primary); opacity: 0; transition: 0.3s; }
+        .nav-item.active .nav-indicator { opacity: 1; bottom: -10px; }
 
         /* No Results State */
-        .no-results { grid-column: 1 / -1; text-align: center; padding: 80px 20px; color: var(--text-muted); }
-        .no-results i { font-size: 70px; color: rgba(255,255,255,0.1); margin-bottom: 20px; }
-        .no-results h3 { font-size: 24px; color: var(--text-main); margin-bottom: 10px; }
+        .no-results { grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-muted); }
+        .no-results i { font-size: 60px; color: #CBD5E1; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
     <div class="app-header">
         <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Home</a>
-        <div style="font-weight: 900; font-size: 20px; text-transform: uppercase; letter-spacing: 2px;">Database</div>
-        <div style="width: 24px;"><i class="fa-solid fa-sliders" style="color: var(--cyan); font-size: 20px;"></i></div>
+        <div style="font-weight: 800; font-size: 18px;">Matchmaking Feed</div>
+        <div style="width: 24px;"></div>
     </div>
 
     <div class="container">
+        <!-- Live Search Engine -->
         <div class="search-container">
             <div class="search-bar">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchInput" placeholder="Search Gaming, Beauty, Tech, Fitness..." onkeyup="filterCreators()">
+                <input type="text" id="searchInput" placeholder="Search niches (e.g. Fitness, Tech, Food, Gaming...)" onkeyup="filterCreators()">
             </div>
         </div>
 
         <div class="header-section">
-            <h2>Active Creators</h2>
-            <div class="result-count" id="resultCount">24 Profiles</div>
+            <h2>Local Creators</h2>
+            <div class="result-count" id="resultCount">Loading...</div>
         </div>
         
+        <!-- The Grid where JS will inject 120 profiles -->
         <div class="feed-grid" id="creatorFeed">
-
-            <!-- Card 1: Indian Female (Food) -->
-            <div class="creator-card" data-niche="food lifestyle" style="animation-delay: 0.05s;">
-                <div class="profile-header">
-                    <div class="avatar" style="background-image: url('https://i.pravatar.cc/150?img=5');">
-                        <div class="verified-tick"><i class="fa-solid fa-circle-check"></i></div>
-                    </div>
-                    <div class="profile-info">
-                        <h3>Priya Sharma</h3>
-                        <div class="niche-tag">Food & Lifestyle</div>
-                    </div>
-                </div>
-                <div class="data-grid">
-                    <div class="data-item"><div class="data-val">45.2K</div><div class="data-label">Views</div></div>
-                    <div class="data-item"><div class="data-val" style="color: var(--cyan);">91%</div><div class="data-label">Local</div></div>
-                    <div class="data-item"><div class="data-val">12.4%</div><div class="data-label">Engage</div></div>
-                </div>
-                <button class="hire-btn" onclick="alert('SafePay Escrow Initiated for Priya Sharma (₹6,500)')"><i class="fa-solid fa-lock"></i> Hire via SafePay</button>
-            </div>
-
-            <!-- Card 2: East Asian Male (Gaming) -->
-            <div class="creator-card" data-niche="gaming tech" style="animation-delay: 0.1s;">
-                <div class="profile-header">
-                    <div class="avatar" style="background-image: url('https://i.pravatar.cc/150?img=11');">
-                        <div class="verified-tick"><i class="fa-solid fa-circle-check"></i></div>
-                    </div>
-                    <div class="profile-info">
-                        <h3>Kenji Takahashi</h3>
-                        <div class="niche-tag" style="color: var(--cyan); background: rgba(0, 240, 255, 0.2); border-color: var(--cyan);">Gaming</div>
-                    </div>
-                </div>
-                <div class="data-grid">
-                    <div class="data-item"><div class="data-val">89.1K</div><div class="data-label">Views</div></div>
-                    <div class="data-item"><div class="data-val" style="color: var(--cyan);">75%</div><div class="data-label">Local</div></div>
-                    <div class="data-item"><div class="data-val">18.2%</div><div class="data-label">Engage</div></div>
-                </div>
-                <button class="hire-btn" onclick="alert('SafePay Escrow Initiated for Kenji Takahashi (₹12,000)')"><i class="fa-solid fa-lock"></i> Hire via SafePay</button>
-            </div>
-
-            <!-- Card 3: Black Male (Fitness) -->
-            <div class="creator-card" data-niche="fitness health gym" style="animation-delay: 0.15s;">
-                <div class="profile-header">
-                    <div class="avatar" style="background-image: url('https://i.pravatar.cc/150?img=8');">
-                        <div class="verified-tick"><i class="fa-solid fa-circle-check"></i></div>
-                    </div>
-                    <div class="profile-info">
-                        <h3>Marcus Johnson</h3>
-                        <div class="niche-tag" style="color: var(--lime); background: rgba(57, 255, 20, 0.2); border-color: var(--lime);">Fitness</div>
-                    </div>
-                </div>
-                <div class="data-grid">
-                    <div class="data-item"><div class="data-val">32.4K</div><div class="data-label">Views</div></div>
-                    <div class="data-item"><div class="data-val" style="color: var(--cyan);">98%</div><div class="data-label">Local</div></div>
-                    <div class="data-item"><div class="data-val">9.5%</div><div class="data-label">Engage</div></div>
-                </div>
-                <button class="hire-btn" onclick="alert('SafePay Escrow Initiated for Marcus Johnson (₹4,800)')"><i class="fa-solid fa-lock"></i> Hire via SafePay</button>
-            </div>
-
-            <!-- Card 4: White Female (Beauty) -->
-            <div class="creator-card" data-niche="beauty makeup fashion" style="animation-delay: 0.2s;">
-                <div class="profile-header">
-                    <div class="avatar" style="background-image: url('https://i.pravatar.cc/150?img=1');">
-                        <div class="verified-tick"><i class="fa-solid fa-circle-check"></i></div>
-                    </div>
-                    <div class="profile-info">
-                        <h3>Emma Sterling</h3>
-                        <div class="niche-tag">Beauty & Makeup</div>
-                    </div>
-                </div>
-                <div class="data-grid">
-                    <div class="data-item"><div class="data-val">112K</div><div class="data-label">Views</div></div>
-                    <div class="data-item"><div class="data-val" style="color: var(--cyan);">65%</div><div class="data-label">Local</div></div>
-                    <div class="data-item"><div class="data-val">14.1%</div><div class="data-label">Engage</div></div>
-                </div>
-                <button class="hire-btn" onclick="alert('SafePay Escrow Initiated for Emma Sterling (₹18,500)')"><i class="fa-solid fa-lock"></i> Hire via SafePay</button>
-            </div>
-
-            <!-- Card 5: Hispanic Male (Tech) -->
-            <div class="creator-card" data-niche="tech gadgets review" style="animation-delay: 0.25s;">
-                <div class="profile-header">
-                    <div class="avatar" style="background-image: url('https://i.pravatar.cc/150?img=12');">
-                        <div class="verified-tick"><i class="fa-solid fa-circle-check"></i></div>
-                    </div>
-                    <div class="profile-info">
-                        <h3>Mateo Garcia</h3>
-                        <div class="niche-tag" style="color: var(--cyan); background: rgba(0, 240, 255, 0.2); border-color: var(--cyan);">Tech Reviewer</div>
-                    </div>
-                </div>
-                <div class="data-grid">
-                    <div class="data-item"><div class="data-val">67.8K</div><div class="data-label">Views</div></div>
-                    <div class="data-item"><div class="data-val" style="color: var(--cyan);">82%</div><div class="data-label">Local</div></div>
-                    <div class="data-item"><div class="data-val">11.3%</div><div class="data-label">Engage</div></div>
-                </div>
-                <button class="hire-btn" onclick="alert('SafePay Escrow Initiated for Mateo Garcia (₹9,200)')"><i class="fa-solid fa-lock"></i> Hire via SafePay</button>
-            </div>
-
-            <!-- Card 6: Asian Female (Travel) -->
-            <div class="creator-card" data-niche="travel lifestyle vlogger" style="animation-delay: 0.3s;">
-                <div class="profile-header">
-                    <div class="avatar" style="background-image: url('https://i.pravatar.cc/150?img=16');">
-                        <div class="verified-tick"><i class="fa-solid fa-circle-check"></i></div>
-                    </div>
-                    <div class="profile-info">
-                        <h3>Yuki Chen</h3>
-                        <div class="niche-tag" style="color: var(--lime); background: rgba(57, 255, 20, 0.2); border-color: var(--lime);">Travel Vlogger</div>
-                    </div>
-                </div>
-                <div class="data-grid">
-                    <div class="data-item"><div class="data-val">54.3K</div><div class="data-label">Views</div></div>
-                    <div class="data-item"><div class="data-val" style="color: var(--cyan);">45%</div><div class="data-label">Local</div></div>
-                    <div class="data-item"><div class="data-val">16.8%</div><div class="data-label">Engage</div></div>
-                </div>
-                <button class="hire-btn" onclick="alert('SafePay Escrow Initiated for Yuki Chen (₹7,800)')"><i class="fa-solid fa-lock"></i> Hire via SafePay</button>
-            </div>
-
-            <!-- Card 7: Black Female (Fashion) -->
-            <div class="creator-card" data-niche="fashion styling" style="animation-delay: 0.35s;">
-                <div class="profile-header">
-                    <div class="avatar" style="background-image: url('https://i.pravatar.cc/150?img=44');">
-                        <div class="verified-tick"><i class="fa-solid fa-circle-check"></i></div>
-                    </div>
-                    <div class="profile-info">
-                        <h3>Chloe Davies</h3>
-                        <div class="niche-tag">Fashion</div>
-                    </div>
-                </div>
-                <div class="data-grid">
-                    <div class="data-item"><div class="data-val">28.9K</div><div class="data-label">Views</div></div>
-                    <div class="data-item"><div class="data-val" style="color: var(--cyan);">94%</div><div class="data-label">Local</div></div>
-                    <div class="data-item"><div class="data-val">10.1%</div><div class="data-label">Engage</div></div>
-                </div>
-                <button class="hire-btn" onclick="alert('SafePay Escrow Initiated for Chloe Davies (₹4,100)')"><i class="fa-solid fa-lock"></i> Hire via SafePay</button>
-            </div>
-
-            <!-- Card 8: Indian Male (Finance) -->
-            <div class="creator-card" data-niche="finance crypto business" style="animation-delay: 0.4s;">
-                <div class="profile-header">
-                    <div class="avatar" style="background-image: url('https://i.pravatar.cc/150?img=59');">
-                        <div class="verified-tick"><i class="fa-solid fa-circle-check"></i></div>
-                    </div>
-                    <div class="profile-info">
-                        <h3>Rohan Patel</h3>
-                        <div class="niche-tag" style="color: var(--cyan); background: rgba(0, 240, 255, 0.2); border-color: var(--cyan);">Finance & Crypto</div>
-                    </div>
-                </div>
-                <div class="data-grid">
-                    <div class="data-item"><div class="data-val">18.5K</div><div class="data-label">Views</div></div>
-                    <div class="data-item"><div class="data-val" style="color: var(--cyan);">99%</div><div class="data-label">Local</div></div>
-                    <div class="data-item"><div class="data-val">8.4%</div><div class="data-label">Engage</div></div>
-                </div>
-                <button class="hire-btn" onclick="alert('SafePay Escrow Initiated for Rohan Patel (₹2,500)')"><i class="fa-solid fa-lock"></i> Hire via SafePay</button>
-            </div>
-
-            <!-- Card 9: White Male (Gaming) -->
-            <div class="creator-card" data-niche="gaming streamer" style="animation-delay: 0.45s;">
-                <div class="profile-header">
-                    <div class="avatar" style="background-image: url('https://i.pravatar.cc/150?img=33');">
-                        <div class="verified-tick"><i class="fa-solid fa-circle-check"></i></div>
-                    </div>
-                    <div class="profile-info">
-                        <h3>Liam O'Connor</h3>
-                        <div class="niche-tag" style="color: var(--cyan); background: rgba(0, 240, 255, 0.2); border-color: var(--cyan);">Gaming</div>
-                    </div>
-                </div>
-                <div class="data-grid">
-                    <div class="data-item"><div class="data-val">145K</div><div class="data-label">Views</div></div>
-                    <div class="data-item"><div class="data-val" style="color: var(--cyan);">55%</div><div class="data-label">Local</div></div>
-                    <div class="data-item"><div class="data-val">22.1%</div><div class="data-label">Engage</div></div>
-                </div>
-                <button class="hire-btn" onclick="alert('SafePay Escrow Initiated for Liam O\'Connor (₹21,000)')"><i class="fa-solid fa-lock"></i> Hire via SafePay</button>
-            </div>
-
-            <!-- Card 10: Indian Female (Tech) -->
-            <div class="creator-card" data-niche="tech software coding" style="animation-delay: 0.5s;">
-                <div class="profile-header">
-                    <div class="avatar" style="background-image: url('https://i.pravatar.cc/150?img=68');">
-                        <div class="verified-tick"><i class="fa-solid fa-circle-check"></i></div>
-                    </div>
-                    <div class="profile-info">
-                        <h3>Aditi Desai</h3>
-                        <div class="niche-tag" style="color: var(--cyan); background: rgba(0, 240, 255, 0.2); border-color: var(--cyan);">Tech Reviewer</div>
-                    </div>
-                </div>
-                <div class="data-grid">
-                    <div class="data-item"><div class="data-val">42.1K</div><div class="data-label">Views</div></div>
-                    <div class="data-item"><div class="data-val" style="color: var(--cyan);">88%</div><div class="data-label">Local</div></div>
-                    <div class="data-item"><div class="data-val">14.6%</div><div class="data-label">Engage</div></div>
-                </div>
-                <button class="hire-btn" onclick="alert('SafePay Escrow Initiated for Aditi Desai (₹6,100)')"><i class="fa-solid fa-lock"></i> Hire via SafePay</button>
-            </div>
-
-            <!-- Card 11: Asian Female (Beauty) -->
-            <div class="creator-card" data-niche="beauty makeup fashion" style="animation-delay: 0.55s;">
-                <div class="profile-header">
-                    <div class="avatar" style="background-image: url('https://i.pravatar.cc/150?img=32');">
-                        <div class="verified-tick"><i class="fa-solid fa-circle-check"></i></div>
-                    </div>
-                    <div class="profile-info">
-                        <h3>Min-ji Kim</h3>
-                        <div class="niche-tag">Beauty & Makeup</div>
-                    </div>
-                </div>
-                <div class="data-grid">
-                    <div class="data-item"><div class="data-val">88.5K</div><div class="data-label">Views</div></div>
-                    <div class="data-item"><div class="data-val" style="color: var(--cyan);">72%</div><div class="data-label">Local</div></div>
-                    <div class="data-item"><div class="data-val">19.3%</div><div class="data-label">Engage</div></div>
-                </div>
-                <button class="hire-btn" onclick="alert('SafePay Escrow Initiated for Min-ji Kim (₹11,500)')"><i class="fa-solid fa-lock"></i> Hire via SafePay</button>
-            </div>
-
-            <!-- Card 12: White Male (Fitness) -->
-            <div class="creator-card" data-niche="fitness gym health" style="animation-delay: 0.6s;">
-                <div class="profile-header">
-                    <div class="avatar" style="background-image: url('https://i.pravatar.cc/150?img=65');">
-                        <div class="verified-tick"><i class="fa-solid fa-circle-check"></i></div>
-                    </div>
-                    <div class="profile-info">
-                        <h3>Caleb Wright</h3>
-                        <div class="niche-tag" style="color: var(--lime); background: rgba(57, 255, 20, 0.2); border-color: var(--lime);">Fitness</div>
-                    </div>
-                </div>
-                <div class="data-grid">
-                    <div class="data-item"><div class="data-val">22.7K</div><div class="data-label">Views</div></div>
-                    <div class="data-item"><div class="data-val" style="color: var(--cyan);">97%</div><div class="data-label">Local</div></div>
-                    <div class="data-item"><div class="data-val">11.9%</div><div class="data-label">Engage</div></div>
-                </div>
-                <button class="hire-btn" onclick="alert('SafePay Escrow Initiated for Caleb Wright (₹3,200)')"><i class="fa-solid fa-lock"></i> Hire via SafePay</button>
-            </div>
-
+            <!-- Cards generate here -->
         </div>
     </div>
 
-    <!-- Mobile App Bottom Nav -->
+    <!-- Mobile Nav -->
     <div class="bottom-nav">
-        <div class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></div>
-        <div class="nav-item active"><i class="fa-solid fa-users-viewfinder"></i><span>Discover</span></div>
-        <div class="nav-item"><i class="fa-solid fa-calendar-days"></i><span>Bookings</span></div>
-        <div class="nav-item"><i class="fa-solid fa-wallet"></i><span>SafePay</span></div>
+        <div class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span><div class="nav-indicator"></div></div>
+        <div class="nav-item active"><i class="fa-solid fa-users-viewfinder"></i><span>Discover</span><div class="nav-indicator"></div></div>
+        <div class="nav-item"><i class="fa-solid fa-calendar-days"></i><span>Bookings</span><div class="nav-indicator"></div></div>
+        <div class="nav-item"><i class="fa-solid fa-wallet"></i><span>SafePay</span><div class="nav-indicator"></div></div>
     </div>
 
     <script>
-        // Real-Time Search Filter for the Hardcoded Grid
+        // --- PROCEDURAL GENERATION ENGINE ---
+        
+        // Data banks for randomized generation
+        const firstNames = ["Aarav", "Priya", "Rahul", "Aisha", "Karan", "Neha", "Rohan", "Sneha", "Vikram", "Aditi", "Arjun", "Kiara", "Dev", "Meera", "Kabir", "Zara", "Jay", "Ananya"];
+        const lastNames = ["Sharma", "Patel", "Singh", "Gupta", "Deshmukh", "Joshi", "Kapoor", "Verma", "Reddy", "Mehta", "Bose", "Chopra"];
+        const niches = ["Food & Lifestyle", "Fitness & Gym", "Tech Reviewer", "Beauty & Makeup", "Travel Vlogger", "Gaming Creator", "Men's Fashion", "Finance & Crypto"];
+        
+        const feedContainer = document.getElementById('creatorFeed');
+        const totalProfiles = 120; // Generates exactly 120 profiles instantly
+
+        function generateProfiles() {
+            let htmlContent = '';
+
+            for(let i = 0; i < totalProfiles; i++) {
+                // Randomize data
+                let fName = firstNames[Math.floor(Math.random() * firstNames.length)];
+                let lName = lastNames[Math.floor(Math.random() * lastNames.length)];
+                let niche = niches[Math.floor(Math.random() * niches.length)];
+                
+                // Random stats math
+                let views = (Math.random() * 40 + 5).toFixed(1); // 5k to 45k
+                let reach = Math.floor(Math.random() * 20 + 80); // 80% to 99%
+                let engagement = (Math.random() * 8 + 4).toFixed(1); // 4% to 12%
+                
+                // Fetch random unique avatar using pravatar API
+                let avatarUrl = `https://i.pravatar.cc/150?u=${fName}${i}`;
+                
+                // Calculate dynamic pricing based on views
+                let price = Math.floor(views * 150).toLocaleString();
+
+                // Build the HTML Card with a staggered animation delay based on index
+                let delay = (i < 20) ? i * 0.05 : 0; // Stagger the first 20 so it waterfalls, snap the rest
+
+                htmlContent += `
+                <div class="creator-card" data-niche="${niche.toLowerCase()}" style="animation-delay: ${delay}s">
+                    <div class="profile-header">
+                        <div class="avatar" style="background-image: url('${avatarUrl}');">
+                            <div class="verified-tick"><i class="fa-solid fa-circle-check"></i></div>
+                        </div>
+                        <div class="profile-info">
+                            <h3>${fName} ${lName}</h3>
+                            <div class="niche-tag">${niche}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="data-grid">
+                        <div class="data-item"><div class="data-val">${views}K</div><div class="data-label">Avg Views</div></div>
+                        <div class="data-item"><div class="data-val highlight-val">${reach}%</div><div class="data-label">Local City</div></div>
+                        <div class="data-item"><div class="data-val">${engagement}%</div><div class="data-label">Engagement</div></div>
+                    </div>
+                    
+                    <button class="hire-btn" onclick="triggerHire('${fName}')">
+                        <i class="fa-solid fa-lock"></i> Hire via SafePay (₹${price})
+                    </button>
+                </div>
+                `;
+            }
+            
+            feedContainer.innerHTML = htmlContent;
+            updateResultCount(totalProfiles);
+        }
+
+        // Initialize generator
+        generateProfiles();
+
+        // --- REAL-TIME SEARCH FILTER ---
         function filterCreators() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             let cards = document.querySelectorAll('.creator-card');
-            let feedContainer = document.getElementById('creatorFeed');
             let visibleCount = 0;
-
-            // Remove no-results message if it exists
-            let oldNoResults = document.querySelector('.no-results');
-            if (oldNoResults) { oldNoResults.remove(); }
 
             cards.forEach(card => {
                 let niche = card.getAttribute('data-niche');
                 let name = card.querySelector('h3').innerText.toLowerCase();
                 
+                // If input matches niche OR name
                 if(niche.includes(input) || name.includes(input)) {
                     card.style.display = "flex";
-                    // Reset animation so they cascade nicely when filtering
-                    card.style.animation = 'none';
-                    card.offsetHeight; /* trigger reflow */
-                    card.style.animation = null; 
                     visibleCount++;
                 } else {
                     card.style.display = "none";
                 }
             });
 
-            // Inject No Results Graphic
+            // Show no results graphic if count is 0
             if(visibleCount === 0) {
-                let noResultsHTML = `
-                    <div class="no-results" style="grid-column: 1 / -1;">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                        <h3>No Creators Found</h3>
-                        <p>Try searching a different niche like 'Gaming', 'Fitness', or 'Tech'.</p>
+                feedContainer.innerHTML = `
+                    <div class="no-results">
+                        <i class="fa-solid fa-ghost"></i>
+                        <h3>No creators found</h3>
+                        <p>Try searching a different niche like 'Gaming' or 'Fashion'</p>
                     </div>
                 `;
-                feedContainer.insertAdjacentHTML('beforeend', noResultsHTML);
+            } else if (document.querySelector('.no-results')) {
+                // Re-run generator to restore cards if they backspace
+                generateProfiles(); 
+                filterCreators(); // Re-apply current filter text
             }
 
-            // Update Counter
-            document.getElementById('resultCount').innerText = `${visibleCount} Profiles`;
+            updateResultCount(visibleCount);
+        }
+
+        function updateResultCount(count) {
+            document.getElementById('resultCount').innerText = `${count} Profiles Active`;
+        }
+
+        // Interactive Button Alert
+        function triggerHire(name) {
+            alert(`SafePay Escrow Initiated for ${name}.\n\nYour funds are secured and their calendar is now blocked for double-bookings.`);
         }
     </script>
 </body>
