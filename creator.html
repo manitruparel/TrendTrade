@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendTrade | Creator Studio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #2563EB; --accent: #FBBF24; --bg: #FFFFFF; --text: #0F172A; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        body { background: var(--bg); color: var(--text); padding-bottom: 90px; }
+
+        .app-header {
+            background: var(--bg); padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #E2E8F0;
+        }
+        .back-btn { color: var(--text); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+
+        .dashboard-header {
+            background: var(--primary); color: white; padding: 40px 5% 60px; border-radius: 0 0 40px 40px;
+            text-align: center; margin-bottom: -30px;
+        }
+        .dashboard-header h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; }
+        .dashboard-header p { opacity: 0.9; font-size: 1.1rem; }
+
+        .container { padding: 0 5%; max-width: 800px; margin: 0 auto; position: relative; z-index: 10; }
+
+        /* Interactive Calculator */
+        .calculator {
+            background: white; padding: 30px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center; margin-bottom: 40px; border: 1px solid #E2E8F0;
+        }
+        .calculator h3 { margin-bottom: 20px; font-size: 20px; }
+        input[type=range] { width: 100%; -webkit-appearance: none; background: #E2E8F0; height: 8px; border-radius: 5px; margin-bottom: 20px; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); cursor: pointer; box-shadow: 0 4px 10px rgba(251, 191, 36, 0.4); }
+        .calc-result { font-size: 48px; font-weight: 800; color: var(--primary); }
+
+        h2 { font-size: 24px; margin-bottom: 20px; font-weight: 800; }
+
+        /* Gig Board */
+        .gig-feed { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .gig-card {
+            border-radius: 20px; overflow: hidden; border: 1px solid #E2E8F0; background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: 0.3s;
+        }
+        .gig-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
+        
+        .gig-img { height: 160px; background-size: cover; background-position: center; position: relative; }
+        .price-tag { position: absolute; bottom: 15px; left: 15px; background: var(--accent); color: var(--text); padding: 5px 12px; border-radius: 12px; font-weight: 800; font-size: 14px; }
+
+        .gig-content { padding: 20px; }
+        .gig-content h3 { font-size: 18px; margin-bottom: 5px; }
+        .gig-content p { color: #64748B; font-size: 14px; margin-bottom: 15px; }
+        .apply-btn { background: var(--text); color: white; padding: 12px; border-radius: 10px; font-weight: 700; text-align: center; display: block; text-decoration: none; }
+
+        /* Mobile Bottom Nav */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: white;
+            border-top: 1px solid #E2E8F0; display: flex; justify-content: space-around; padding: 15px 0 25px; z-index: 1000;
+        }
+        .nav-item { color: #94A3B8; text-align: center; font-size: 22px; cursor: pointer; }
+        .nav-item.active { color: var(--primary); }
+        .nav-item span { display: block; font-size: 10px; margin-top: 6px; font-weight: 700; }
+    </style>
+</head>
+<body>
+
+    <div class="app-header">
+        <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Home</a>
+        <div style="font-weight: 800; font-size: 16px;">Creator Studio</div>
+        <div style="width: 24px;"></div>
+    </div>
+
+    <div class="dashboard-header">
+        <h1>Monetize Local.</h1>
+        <p>Zero platform fees. 100% guaranteed SafePay payouts.</p>
+    </div>
+
+    <div class="container">
+        <!-- Earnings Calculator -->
+        <div class="calculator">
+            <h3>Calculate Your Gig Rate</h3>
+            <div style="font-size: 18px; font-weight: 700; color: #64748B; margin-bottom: 15px;" id="followerCount">10,000 Followers</div>
+            <input type="range" id="followerSlider" min="1000" max="50000" step="1000" value="10000">
+            <div style="font-size: 12px; color: #94A3B8; text-transform: uppercase; font-weight: 700;">Est. Value Per Reel</div>
+            <div class="calc-result" id="earningsResult">₹2,500</div>
+        </div>
+
+        <h2>Open Gigs Near You</h2>
+        <div class="gig-feed">
+            <!-- Gig 1 -->
+            <div class="gig-card">
+                <div class="gig-img" style="background-image: url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80');">
+                    <div class="price-tag">Pays ₹3,000</div>
+                </div>
+                <div class="gig-content">
+                    <h3>The Artisan Cafe</h3>
+                    <p>Looking for a food vlogger to review our new weekend brunch menu.</p>
+                    <a href="#" class="apply-btn" onclick="alert('Application Sent! Shop owner will review your Report Card.')">Apply Now</a>
+                </div>
+            </div>
+
+            <!-- Gig 2 -->
+            <div class="gig-card">
+                <div class="gig-img" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80');">
+                    <div class="price-tag">Pays ₹4,500</div>
+                </div>
+                <div class="gig-content">
+                    <h3>Iron Forge Gym</h3>
+                    <p>Need a fitness creator for a 3-part reel series showcasing our new equipment.</p>
+                    <a href="#" class="apply-btn" onclick="alert('Application Sent! Shop owner will review your Report Card.')">Apply Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></div>
+        <div class="nav-item active"><i class="fa-solid fa-briefcase"></i><span>Gigs</span></div>
+        <div class="nav-item"><i class="fa-solid fa-chart-simple"></i><span>Stats</span></div>
+        <div class="nav-item"><i class="fa-solid fa-wallet"></i><span>Earnings</span></div>
+    </div>
+
+    <script>
+        const slider = document.getElementById("followerSlider");
+        const followerCount = document.getElementById("followerCount");
+        const earningsResult = document.getElementById("earningsResult");
+
+        slider.oninput = function() {
+            followerCount.innerHTML = parseInt(this.value).toLocaleString() + " Followers";
+            let total = 500 + ((this.value / 1000) * 200);
+            earningsResult.innerHTML = "₹" + total.toLocaleString();
+        }
+    </script>
+</body>
+</html>
