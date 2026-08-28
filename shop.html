@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendTrade | Retailer Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        
+        body { background: #f4f6f9; color: #1A1A2E; overflow-x: hidden; }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 1);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px 0 rgba(75, 0, 130, 0.08);
+        }
+
+        .top-bar {
+            background: #4B0082; color: white; padding: 15px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .back-btn { color: white; text-decoration: none; font-weight: 800; display: flex; align-items: center; gap: 5px;}
+        
+        .dashboard-layout { padding: 40px 5%; max-width: 1200px; margin: 0 auto; }
+        
+        .header-title { font-size: 36px; color: #4B0082; margin-bottom: 30px; font-weight: 800; }
+
+        .features-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 50px;
+        }
+
+        .feature-box { padding: 30px; transition: transform 0.3s; }
+        .feature-box:hover { transform: translateY(-5px); }
+        .feature-box i { font-size: 32px; color: #FF6F61; margin-bottom: 15px; }
+        .feature-box h3 { color: #4B0082; margin-bottom: 10px; font-size: 22px;}
+        
+        /* The UI Mockup */
+        .mockup-ui { padding: 0; overflow: hidden; border: 2px solid #4B0082; }
+        .mockup-header { background: #4B0082; color: white; padding: 20px; display: flex; justify-content: space-between;}
+        .mockup-body { padding: 30px; }
+        .creator-row { display: flex; align-items: center; gap: 20px; padding: 15px; background: #fff; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; }
+        .creator-avatar { width: 60px; height: 60px; background: #FF6F61; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; }
+        .stats { display: flex; gap: 20px; margin-top: 5px; font-size: 14px; color: #666; }
+        .stats span { font-weight: 800; color: #4B0082; }
+        .hire-btn { margin-left: auto; background: #4B0082; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 800; }
+
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Main Hub</a>
+        <div>Retailer & Shop Portal</div>
+    </div>
+
+    <div class="dashboard-layout">
+        <h1 class="header-title">Scale Your Local Footprint.</h1>
+
+        <div class="features-grid">
+            <div class="feature-box glass-panel" data-tilt data-tilt-max="5">
+                <i class="fa-solid fa-shield-halved"></i>
+                <h3>SafePay Escrow</h3>
+                <p>Your marketing budget is held securely in escrow. Funds are only released when the creator successfully uploads the verified promotional content. Zero risk of being scammed.</p>
+            </div>
+            <div class="feature-box glass-panel" data-tilt data-tilt-max="5">
+                <i class="fa-solid fa-chart-pie"></i>
+                <h3>Creator Report Cards</h3>
+                <p>Stop paying for fake followers. TrendTrade automatically audits creators to show you their genuine local city reach and authentic engagement rates.</p>
+            </div>
+            <div class="feature-box glass-panel" data-tilt data-tilt-max="5">
+                <i class="fa-solid fa-calendar-check"></i>
+                <h3>Smart Calendar Blocking</h3>
+                <p>Prevent double-booking. When you hire a creator, their schedule is hard-locked to your brand. Guaranteed refunds if a creator ghosts.</p>
+            </div>
+        </div>
+
+        <h2 style="color: #4B0082; margin-bottom: 20px;">Live Matchmaking Dashboard</h2>
+        <div class="mockup-ui glass-panel">
+            <div class="mockup-header">
+                <div><i class="fa-solid fa-location-dot"></i> Local Creators in your Radius</div>
+                <div>Filter: Food & Lifestyle</div>
+            </div>
+            <div class="mockup-body">
+                
+                <div class="creator-row">
+                    <div class="creator-avatar"><i class="fa-solid fa-camera"></i></div>
+                    <div>
+                        <h3 style="color: #4B0082;">@AhmedabadEats</h3>
+                        <div class="stats">
+                            <div>Views: <span>12.4K</span></div>
+                            <div>Local Reach: <span>89%</span></div>
+                            <div>Trust Score: <span>98/100</span></div>
+                        </div>
+                    </div>
+                    <a href="#" class="hire-btn" onclick="alert('SafePay Escrow Initiated for ₹2,500')">Hire via SafePay</a>
+                </div>
+
+                <div class="creator-row">
+                    <div class="creator-avatar" style="background: #4B0082;"><i class="fa-solid fa-dumbbell"></i></div>
+                    <div>
+                        <h3 style="color: #4B0082;">@GujjuFitness</h3>
+                        <div class="stats">
+                            <div>Views: <span>8.2K</span></div>
+                            <div>Local Reach: <span>94%</span></div>
+                            <div>Trust Score: <span>95/100</span></div>
+                        </div>
+                    </div>
+                    <a href="#" class="hire-btn" onclick="alert('SafePay Escrow Initiated for ₹1,800')">Hire via SafePay</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+</body>
+</html>
